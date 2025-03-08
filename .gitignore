@@ -1,0 +1,20 @@
+# Bazel generated files and symlinks
+bazel-*
+bazel-out/
+
+
+# Common editor/IDE files
+*.swp
+*.swo
+*.swn
+.vscode/
+.idea/
+*.iml
+
+# Compiled binaries (if not caught by bazel-out)
+*.o
+*.a
+*.so
+
+# Miscellaneous
+*.log

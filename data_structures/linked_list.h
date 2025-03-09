@@ -27,7 +27,6 @@ public:
 private:
     Node* head;
     Node* tail;
-  
 };
 
 template <typename T>

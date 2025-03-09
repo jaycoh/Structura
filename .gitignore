@@ -18,3 +18,8 @@ bazel-out/
 
 # Miscellaneous
 *.log
+*.out
+*.tmp
+*.err
+*.pid
+*.lock

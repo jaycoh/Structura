@@ -2,10 +2,8 @@
 Data Structures and Algorithms in cpp
 
 ## Setup
-```
-ln -sf ../../hooks/pre-commit .git/hooks/pre-commit
-chmod +x .git/hooks/pre-commit
-```
+
+Find all the git precommits `hooks/pre-commit`; please copy these to `.git/hooks/pre-commit`
 
 
 ## Common Data Structures and Algorithms

@@ -35,7 +35,7 @@ V* LRUCache<K, V>::get(const K& key) {
         return nullptr;
     }
 
-    LinkedList<K>::removeNode(it->second.second, &order_);
+    order_.removeNode(it->second.second);
     order_.insert(key);
     it->second.second = order_.getHead();
     return &it->second.first;
@@ -46,13 +46,13 @@ void LRUCache<K, V>::put(const K& key, const V& value) {
     if (capacity_ <= 0) return;
     auto it = cache_.find(key);
     if (it != cache_.end()) {
-        LinkedList<K>::removeNode(it->second.second, &order_);
+        order_.removeNode(it->second.second);
         cache_.erase(it);
     } else if (cache_.size() >= capacity_) {
         K keyToRemove = order_.getTail()->data;
         typename LinkedList<K>::Node* nodeToRemove = order_.getTail();
         cache_.erase(keyToRemove);
-        LinkedList<K>::removeNode(nodeToRemove, &order_);
+        order_.removeNode(nodeToRemove);
     }
 
     order_.insert(key);

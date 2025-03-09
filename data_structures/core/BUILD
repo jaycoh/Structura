@@ -1,7 +1,8 @@
 # For users outside of this package, we expose the data structures library.
 cc_library(
-    name = "data_structures",
-    hdrs = ["linked_list.h", "stack.h", "binary_tree.h"],
+    name = "core_data_structures",
+    hdrs = glob(["*.h"]),
+    srcs = glob(["*.cc"], exclude=["*_test.cc"]),
     visibility = ["//visibility:public"],
     deps = [
         # Add dependencies here
@@ -52,6 +53,23 @@ cc_test(
     deps = [
         "@googletest//:gtest_main",
         ":lru_cache",
+    ],
+)
+
+cc_library(
+    name = "sorted_binary_tree",
+    hdrs = ["sorted_binary_tree.h"],
+    deps = [
+        ":binary_tree",
+    ],
+)
+
+cc_test(
+    name = "sorted_binary_tree_test",
+    srcs = ["sorted_binary_tree_test.cc"],
+    deps = [
+        "@googletest//:gtest_main",
+        ":sorted_binary_tree",
     ],
 )
 

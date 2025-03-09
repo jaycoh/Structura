@@ -8,14 +8,18 @@ class BinaryTree {
 public:
     // If we don't provide data in the constructor, we would have to use default member initialization for data or turn data into a pointer.
     BinaryTree(const T& data) : data(data), left(nullptr), right(nullptr) {}
-    ~BinaryTree();
+    // It is good practice to make the destructor virtual if the class is intended to be derived from.
+    virtual ~BinaryTree();
 
-    void setLeft(BinaryTree* left);
-    void setRight(BinaryTree* right);
-    void setData(const T& data);
+    virtual void setLeft(BinaryTree* left);
+    virtual void setRight(BinaryTree* right);
+    virtual void setData(const T& data);
     BinaryTree* getLeft() const;
     BinaryTree* getRight() const;
     T getData() const;
+
+protected:
+    bool isSorted() const;
 
 private:
     T data;
@@ -59,6 +63,20 @@ BinaryTree<T>* BinaryTree<T>::getRight() const {
 template <typename T>
 T BinaryTree<T>::getData() const {
     return data;
+}
+
+template <typename T>
+bool BinaryTree<T>::isSorted() const {
+    if (this == nullptr) {
+        return true;
+    }
+    if (left != nullptr && left->getData() > data) {
+        return false;
+    }
+    if (right != nullptr && right->getData() < data) {
+        return false;
+    }
+    return left->isSorted() && right->isSorted();
 }
 
 #endif // BINARY_TREE_H

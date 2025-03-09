@@ -13,8 +13,4 @@ chmod +x .git/hooks/pre-commit
 ### Data Structures
 - Linked Lists
 - Stacks
-- Queues
-- Trees
-- Graphs
-- Hash Tables
-- Heaps
+- Trees: Trie & Binary Tree

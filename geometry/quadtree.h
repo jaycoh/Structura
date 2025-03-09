@@ -36,6 +36,10 @@ public:
         return searchImpl(point);
     }
 
+    Point findNearestNeighbor(const Point& point) {
+        
+    }
+
 private:
     Point topLeft_;
     Point bottomRight_;

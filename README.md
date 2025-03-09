@@ -16,20 +16,36 @@ Find all the git precommits `hooks/pre-commit`; please copy these to `.git/hooks
 
 ## TODO
 
-- expand to geometry-flavored data structures (quadtree)
-- Refactor one old structure (e.g., Stack) with std::unique_ptr.
-- Explore Eigen—compute distances in Quadtree.
+(search `1. Enhance Quadtree with Eigen-Based Distance Features` in `https://grok.com/chat/e74599dc-0fc6-43b5-a2a6-495f80583d45?referrer=website`)
+- 1. Enhance Quadtree with Eigen-Based Distance Features
+- 2. What: Make LinkedList and Quadtree more flexible and interoperable.
+-- Iterator Support: Add STL-style iterators to LinkedList and Quadtree.
+-- Custom Allocators: Template parameter for memory allocation.
+-- Traits: Add a traits class to unify point types.
+- 3. Add More Spatial Data Structures
+-- (K-d tree, R-tree, Octree)
+- 4. Integrate with Eigen More Deeply
+-- Point Type: Define a default Point using Eigen::Vector2f or VectorXf.
+-- Distance Metrics: Add configurable distance functions.
+-- Transformations: Support affine transforms on quadtree points.
+5. Build Utility Functions
+-- Serialization: Save/load LinkedList or Quadtree to/from files.
+-- Visualization: Export to a format like SVG or a simple ASCII renderer.
+-- Statistics: Compute stats (e.g., average point density in quadtree).
+
+Ideas:
+Image Processing: Quadtree for image compression (e.g., adaptive sampling).
+Store pixel intensities, use Eigen for distance-based merging.
+Point Clouds: Nearest-neighbor searches for 2D/3D data.
+Integrate with PCL (Point Cloud Library) or ROS messages.
+Game Dev: Collision detection with quadtree and distance checks.
+LinkedList for dynamic objects, Quadtree for static.
+
+
 
 
 
 ### Possible
-- Refactor one existing structure (e.g., LinkedList) to use std::unique_ptr and <vector>
-- stdlibs to learn:
--- <vector>, <array>, <list>
--- <memory>:
--- <algorithm>:
--- <optional>:
--- <numeric>:
 
 
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Find staged C++ files
-FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(cpp|h)$')
+FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(cpp|h|.cc)$')
 if [ -z "$FILES" ]; then
     echo "No staged C++ files to format or lint."
     exit 0

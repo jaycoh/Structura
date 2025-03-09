@@ -5,7 +5,6 @@ Data Structures and Algorithms in cpp
 ## Common Data Structures and Algorithms
 
 ### Data Structures
-- Arrays
 - Linked Lists
 - Stacks
 - Queues

@@ -1,12 +1,10 @@
 #ifndef LINKED_LIST_H
 #define LINKED_LIST_H
 
-#include <iostream>
-
 template <typename T>
 class LinkedList {
 public:
-    LinkedList();
+    LinkedList() : head(nullptr), tail(nullptr) {}
     ~LinkedList();
 
     void insert(const T& data);
@@ -14,19 +12,40 @@ public:
     bool search(const T& data) const;
     void display() const;
 
-private:
     struct Node {
         T data;
         Node* next;
+        Node* previous;
+        Node(const T& value) : data(value), next(nullptr), previous(nullptr) {}
     };
 
+    static void removeNode(Node* nodeToRemove, LinkedList<T>* list);
+
+    Node* getHead() const { return head; }
+    Node* getTail() const { return tail; }
+
+private:
     Node* head;
+    Node* tail;
+  
 };
 
-// Implementations go here
 template <typename T>
-LinkedList<T>::LinkedList() {
-    head = nullptr;
+void LinkedList<T>::removeNode(Node* nodeToRemove, LinkedList<T>* list) {
+    if (!nodeToRemove) return;
+    if (nodeToRemove->previous == nullptr) {
+        list->head = nodeToRemove->next;
+    } else {
+        nodeToRemove->previous->next = nodeToRemove->next;
+    }
+
+    if (nodeToRemove->next == nullptr) {
+        list->tail = nodeToRemove->previous;
+    } else {
+        nodeToRemove->next->previous = nodeToRemove->previous;
+    }
+
+    delete nodeToRemove;
 }
 
 template <typename T>
@@ -43,38 +62,30 @@ LinkedList<T>::~LinkedList() {
 // ... other implementations ...
 template <typename T>
 void LinkedList<T>::insert(const T& data) {
-    Node* newNode = new Node;
+    Node* newNode = new Node(data);
     newNode->data = data;
-    newNode->next = nullptr;
+    newNode->next = head;
+    newNode->previous = nullptr;
 
-    Node* current = head;
-    if (current == nullptr) {
-        head = newNode;
-        return;
+    if (head != nullptr) {
+        head->previous = newNode;
+    } else {
+        tail = newNode;
     }
-    while (current->next != nullptr) {
-        current = current->next;
-    }
-    current->next = newNode;
+    head = newNode;
+
 }
 
 template <typename T>
 void LinkedList<T>::remove(const T& data) {
     Node* current = head;
-    Node* previous = nullptr;
 
     while (current != nullptr && current->data != data) {
-        previous = current;
         current = current->next;
     }
 
     if (current != nullptr) {
-        if (previous == nullptr) {
-            head = current->next;
-        } else {
-            previous->next = current->next;
-        }
-        delete current;
+        removeNode(current, this);
     }
 }
 

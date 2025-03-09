@@ -1,20 +1,28 @@
 #!/bin/bash
-# .git/hooks/pre-commit
 
 # Find staged C++ files
 FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(cpp|h)$')
-if [ -n "$FILES" ]; then
-    echo "Running clang-format on staged files..."
-    clang-format $FILES  > /dev/null
-    if [ $? -ne 0 ]; then
-        echo "Linting failed! Fix issues before committing."
-        exit 1
+if [ -z "$FILES" ]; then
+    echo "No staged C++ files to format or lint."
+    exit 0
+fi
+echo "Running clang-format on staged files..."
+clang-format $FILES  > /dev/null
+if [ $? -ne 0 ]; then
+    echo "Linting failed! Fix issues before committing."
+    exit 1
+fi
+echo "Running clang-tidy on staged files..."
+clang-tidy $FILES > /dev/null
+if [ $? -ne 0 ]; then
+    echo "Parsing failed! Fix issues before committing."
+    exit 1
     fi
-    echo "Running clang-tidy on staged files..."
-    clang-tidy $FILES > /dev/null
-    if [ $? -ne 0 ]; then
-        echo "Parsing failed! Fix issues before committing."
-        exit 1
-    fi
+fi
+echo "Running bazel test on all tests..."
+bazel test --test_output=errors //... > /dev/null
+if [ $? -ne 0 ]; then
+    echo "Tests failed! Fix issues before committing."
+    exit 1
 fi
 exit 0

@@ -46,11 +46,9 @@ void LRUCache<K, V>::put(const K& key, const V& value) {
     if (capacity_ <= 0) return;
     auto it = cache_.find(key);
     if (it != cache_.end()) {
-        // Key exists: remove it first
         LinkedList<K>::removeNode(it->second.second, &order_);
         cache_.erase(it);
     } else if (cache_.size() >= capacity_) {
-        // Evict least recent
         K keyToRemove = order_.getTail()->data;
         typename LinkedList<K>::Node* nodeToRemove = order_.getTail();
         cache_.erase(keyToRemove);

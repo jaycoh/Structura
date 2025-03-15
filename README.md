@@ -1,9 +1,9 @@
 # cpp_dsa
-Data Structures and Algorithms in cpp
+Numeric C++ DSA library for computational geometry and mathematical modeling
 
 ## Setup
 
-Find all the git precommits `hooks/pre-commit`; please copy these to `.git/hooks/pre-commit`
+Find all the git precommits `hooks/pre-commit`; please copy these to `.git/hooks/pre-commit`. TODO: add this as a merge req.
 
 
 ## Common Data Structures and Algorithms
@@ -16,7 +16,6 @@ Find all the git precommits `hooks/pre-commit`; please copy these to `.git/hooks
 
 ## TODO
 
-(search `1. Enhance Quadtree with Eigen-Based Distance Features` in `https://grok.com/chat/e74599dc-0fc6-43b5-a2a6-495f80583d45?referrer=website`)
 - 1. Enhance Quadtree with Eigen-Based Distance Features
 - 2. What: Make LinkedList and Quadtree more flexible and interoperable.
 -- Iterator Support: Add STL-style iterators to LinkedList and Quadtree.

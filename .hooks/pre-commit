@@ -23,6 +23,6 @@ echo "Running bazel test on all tests..."
 bazel test --test_output=errors //... > /dev/null
 if [ $? -ne 0 ]; then
     echo "Tests failed! Fix issues before committing."
-    exit 1
+    exit  1
 fi
 exit 0

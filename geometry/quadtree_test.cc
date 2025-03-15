@@ -10,10 +10,9 @@ protected:
         qt_ = std::make_unique<Quadtree<int>>(Point(0, 0), Point(100, 100));
     }
 
-    std::unique_ptr<Quadtree<int>> qt_;  // Test instance
+    std::unique_ptr<Quadtree<int>> qt_;
 };
 
-// Test basic insertion and search
 TEST_F(QuadtreeTest, InsertAndSearchSinglePoint) {
     qt_->insert(Point(50, 50), 42);
     const int* result = qt_->search(Point(50, 50));
@@ -22,10 +21,9 @@ TEST_F(QuadtreeTest, InsertAndSearchSinglePoint) {
     EXPECT_EQ(qt_->search(Point(51, 51)), nullptr) << "Non-inserted point should return nullptr";
 }
 
-// Test splitting when inserting multiple points
 TEST_F(QuadtreeTest, InsertMultiplePointsWithSplit) {
-    qt_->insert(Point(50, 50), 42);  // First point
-    qt_->insert(Point(25, 25), 84);  // Second point — triggers split
+    qt_->insert(Point(50, 50), 42);
+    qt_->insert(Point(25, 25), 84);
 
     const int* result1 = qt_->search(Point(50, 50));
     ASSERT_NE(result1, nullptr);
@@ -38,7 +36,6 @@ TEST_F(QuadtreeTest, InsertMultiplePointsWithSplit) {
     EXPECT_EQ(qt_->search(Point(75, 75)), nullptr) << "Non-inserted point should return nullptr";
 }
 
-// Test out-of-bounds insertion throws
 TEST_F(QuadtreeTest, InsertOutOfBoundsThrows) {
     EXPECT_THROW(qt_->insert(Point(150, 150), 99), std::runtime_error)
         << "Inserting outside bounds should throw";
@@ -46,13 +43,11 @@ TEST_F(QuadtreeTest, InsertOutOfBoundsThrows) {
         << "Inserting below bounds should throw";
 }
 
-// Test search on empty tree
 TEST_F(QuadtreeTest, SearchEmptyTree) {
     EXPECT_EQ(qt_->search(Point(50, 50)), nullptr)
         << "Search on empty tree should return nullptr";
 }
 
-// Test constructor with invalid bounds
 TEST_F(QuadtreeTest, InvalidBoundsThrows) {
     EXPECT_THROW(Quadtree<int>(Point(50, 50), Point(0, 0)), std::invalid_argument)
         << "Invalid bounds (topLeft >= bottomRight) should throw";

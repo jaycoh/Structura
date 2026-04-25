@@ -23,3 +23,18 @@ cc_test(
         ":quadtree",
     ],
 )
+
+# Octree implementation and tests
+cc_library(
+    name = "octree",
+    hdrs = ["octree.h"],
+)
+
+cc_test(
+    name = "octree_test",
+    srcs = ["octree_test.cc"],
+    deps = [
+        "@googletest//:gtest_main",
+        ":octree",
+    ],
+)

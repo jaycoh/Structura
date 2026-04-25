@@ -65,3 +65,4 @@ Task: Parse a simple .pcd file—mimic ROS sensor_msgs::PointCloud2.
 Computational Geometry:
 Next: Convex Hull (e.g., Graham Scan—use <algorithm>).
 Library: Eigen (linear algebra)
+\n[ci skip] tiny test PR created by Copilot CLI at Sat Apr 25 22:41:22 UTC 2026

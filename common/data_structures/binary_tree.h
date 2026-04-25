@@ -67,16 +67,15 @@ T BinaryTree<T>::getData() const {
 
 template <typename T>
 bool BinaryTree<T>::isSorted() const {
-    if (this == nullptr) {
-        return true;
-    }
+    // 'this' cannot be null for a well-formed member function call; remove that check.
     if (left != nullptr && left->getData() > data) {
         return false;
     }
     if (right != nullptr && right->getData() < data) {
         return false;
     }
-    return left->isSorted() && right->isSorted();
+    // Only recurse when children are non-null to avoid dereferencing null pointers.
+    return (left == nullptr || left->isSorted()) && (right == nullptr || right->isSorted());
 }
 
 #endif // BINARY_TREE_H

@@ -101,3 +101,18 @@ cc_test(
         ":trie",
     ],
 )
+
+# Uptree (union-find) implementation and tests
+cc_library(
+    name = "uptree",
+    hdrs = ["uptree.h"],
+)
+
+cc_test(
+    name = "uptree_test",
+    srcs = ["uptree_test.cc"],
+    deps = [
+        "@googletest//:gtest_main",
+        ":uptree",
+    ],
+)

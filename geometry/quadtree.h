@@ -1,6 +1,9 @@
 #ifndef QUADTREE_H
 #define QUADTREE_H
 
+#include <memory>
+#include <stdexcept>
+
 class Point {
 public:
   Point(int x, int y) : x(x), y(y) {}

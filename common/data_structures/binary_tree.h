@@ -2,6 +2,7 @@
 #define BINARY_TREE_H
 
 #include <iostream>
+#include <memory>
 
 template <typename T>
 class BinaryTree {
@@ -9,10 +10,10 @@ public:
     // If we don't provide data in the constructor, we would have to use default member initialization for data or turn data into a pointer.
     BinaryTree(const T& data) : data(data), left(nullptr), right(nullptr) {}
     // It is good practice to make the destructor virtual if the class is intended to be derived from.
-    virtual ~BinaryTree();
+    virtual ~BinaryTree() = default;
 
-    virtual void setLeft(BinaryTree* left);
-    virtual void setRight(BinaryTree* right);
+    virtual void setLeft(std::unique_ptr<BinaryTree<T>> left);
+    virtual void setRight(std::unique_ptr<BinaryTree<T>> right);
     virtual void setData(const T& data);
     BinaryTree* getLeft() const;
     BinaryTree* getRight() const;
@@ -23,26 +24,20 @@ protected:
 
 private:
     T data;
-    BinaryTree* left = nullptr;
-    BinaryTree* right = nullptr;
+    std::unique_ptr<BinaryTree<T>> left = nullptr;
+    std::unique_ptr<BinaryTree<T>> right = nullptr;
 };
 
+
+
 template <typename T>
-BinaryTree<T>::~BinaryTree() {
-    delete left;
-    delete right;
+void BinaryTree<T>::setLeft(std::unique_ptr<BinaryTree<T>> left) {
+    this->left = std::move(left);
 }
 
 template <typename T>
-void BinaryTree<T>::setLeft(BinaryTree* left) {
-    delete this->left;
-    this->left = left;
-}
-
-template <typename T>
-void BinaryTree<T>::setRight(BinaryTree* right) {
-    delete this->right;
-    this->right = right;
+void BinaryTree<T>::setRight(std::unique_ptr<BinaryTree<T>> right) {
+    this->right = std::move(right);
 }
 
 template <typename T>
@@ -52,12 +47,12 @@ void BinaryTree<T>::setData(const T& data) {
 
 template <typename T>
 BinaryTree<T>* BinaryTree<T>::getLeft() const {
-    return left;
+    return left.get();
 }
 
 template <typename T>
 BinaryTree<T>* BinaryTree<T>::getRight() const {
-    return right;
+    return right.get();
 }
 
 template <typename T>

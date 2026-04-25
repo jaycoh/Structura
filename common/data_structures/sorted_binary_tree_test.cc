@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <memory>
 #include "sorted_binary_tree.h"
 
 class SortedBinaryTreeTest : public ::testing::Test {
@@ -42,9 +43,9 @@ TEST_F(SortedBinaryTreeTest, InsertAndSearch) {
 
 TEST_F(SortedBinaryTreeTest, SetLeftValid) {
     SortedBinaryTree<int> tree(10);
-    SortedBinaryTree<int>* left = new SortedBinaryTree<int>(5);
+    auto left = std::make_unique<SortedBinaryTree<int>>(5);
     left->insert(3);
-    tree.setLeft(left);
+    tree.setLeft(std::move(left));
     
     EXPECT_EQ(tree.getLeft()->getData(), 5);
     EXPECT_EQ(tree.getLeft()->getLeft()->getData(), 3);
@@ -54,9 +55,9 @@ TEST_F(SortedBinaryTreeTest, SetLeftValid) {
 
 TEST_F(SortedBinaryTreeTest, SetRightValid) {
     SortedBinaryTree<int> tree(10);
-    SortedBinaryTree<int>* right = new SortedBinaryTree<int>(15);
+    auto right = std::make_unique<SortedBinaryTree<int>>(15);
     right->insert(20);
-    tree.setRight(right);
+    tree.setRight(std::move(right));
     
     EXPECT_EQ(tree.getRight()->getData(), 15);
     EXPECT_EQ(tree.getRight()->getRight()->getData(), 20);
@@ -66,16 +67,14 @@ TEST_F(SortedBinaryTreeTest, SetRightValid) {
 
 TEST_F(SortedBinaryTreeTest, SetLeftInvalidThrows) {
     SortedBinaryTree<int> tree(10);
-    SortedBinaryTree<int>* left = new SortedBinaryTree<int>(15);  // 15 > 10
-    EXPECT_THROW(tree.setLeft(left), std::invalid_argument);
-    delete left;
+    auto left = std::make_unique<SortedBinaryTree<int>>(15);  // 15 > 10
+    EXPECT_THROW(tree.setLeft(std::move(left)), std::invalid_argument);
 }
 
 TEST_F(SortedBinaryTreeTest, SetRightInvalidThrows) {
     SortedBinaryTree<int> tree(10);
-    SortedBinaryTree<int>* right = new SortedBinaryTree<int>(5);  // 5 < 10
-    EXPECT_THROW(tree.setRight(right), std::invalid_argument);
-    delete right;  // Clean up
+    auto right = std::make_unique<SortedBinaryTree<int>>(5);  // 5 < 10
+    EXPECT_THROW(tree.setRight(std::move(right)), std::invalid_argument);  // Clean up
 }
 
 TEST_F(SortedBinaryTreeTest, MaintainsBSTProperty) {

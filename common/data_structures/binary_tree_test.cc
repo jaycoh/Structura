@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <memory>
 #include "binary_tree.h"
 
 // Helper struct with no default constructor
@@ -28,8 +29,7 @@ TEST(BinaryTree, SetData) {
 // Test setting left child
 TEST(BinaryTree, SetLeft) {
     BinaryTree<int> root(1);
-    BinaryTree<int>* left = new BinaryTree<int>(2);
-    root.setLeft(left);
+    root.setLeft(std::make_unique<BinaryTree<int>>(2));
     EXPECT_EQ(root.getLeft()->getData(), 2);
     EXPECT_EQ(root.getRight(), nullptr);
     EXPECT_EQ(root.getData(), 1);  // Root data unchanged
@@ -38,8 +38,7 @@ TEST(BinaryTree, SetLeft) {
 // Test setting right child
 TEST(BinaryTree, SetRight) {
     BinaryTree<int> root(1);
-    BinaryTree<int>* right = new BinaryTree<int>(3);
-    root.setRight(right);
+    root.setRight(std::make_unique<BinaryTree<int>>(3));
     EXPECT_EQ(root.getRight()->getData(), 3);
     EXPECT_EQ(root.getLeft(), nullptr);
     EXPECT_EQ(root.getData(), 1);
@@ -48,10 +47,8 @@ TEST(BinaryTree, SetRight) {
 // Test replacing left child (checks memory management)
 TEST(BinaryTree, ReplaceLeft) {
     BinaryTree<int> root(1);
-    BinaryTree<int>* left1 = new BinaryTree<int>(2);
-    BinaryTree<int>* left2 = new BinaryTree<int>(3);
-    root.setLeft(left1);
-    root.setLeft(left2);  // Should delete left1
+    root.setLeft(std::make_unique<BinaryTree<int>>(2));
+    root.setLeft(std::make_unique<BinaryTree<int>>(3));  // Should replace previous left
     EXPECT_EQ(root.getLeft()->getData(), 3);
     EXPECT_EQ(root.getRight(), nullptr);
     // Can’t directly test left1 deletion, but no crash/leak is good
@@ -60,10 +57,8 @@ TEST(BinaryTree, ReplaceLeft) {
 // Test replacing right child
 TEST(BinaryTree, ReplaceRight) {
     BinaryTree<int> root(1);
-    BinaryTree<int>* right1 = new BinaryTree<int>(4);
-    BinaryTree<int>* right2 = new BinaryTree<int>(5);
-    root.setRight(right1);
-    root.setRight(right2);  // Should delete right1
+    root.setRight(std::make_unique<BinaryTree<int>>(4));
+    root.setRight(std::make_unique<BinaryTree<int>>(5));  // Should replace previous right
     EXPECT_EQ(root.getRight()->getData(), 5);
     EXPECT_EQ(root.getLeft(), nullptr);
 }
@@ -71,12 +66,10 @@ TEST(BinaryTree, ReplaceRight) {
 // Test full tree structure
 TEST(BinaryTree, BuildTree) {
     BinaryTree<int> root(1);
-    BinaryTree<int>* left = new BinaryTree<int>(2);
-    BinaryTree<int>* right = new BinaryTree<int>(3);
-    root.setLeft(left);
-    root.setRight(right);
-    BinaryTree<int>* leftLeft = new BinaryTree<int>(4);
-    left->setLeft(leftLeft);
+    root.setLeft(std::make_unique<BinaryTree<int>>(2));
+    root.setRight(std::make_unique<BinaryTree<int>>(3));
+    BinaryTree<int>* left = root.getLeft();
+    left->setLeft(std::make_unique<BinaryTree<int>>(4));
     EXPECT_EQ(root.getData(), 1);
     EXPECT_EQ(root.getLeft()->getData(), 2);
     EXPECT_EQ(root.getRight()->getData(), 3);
@@ -90,8 +83,7 @@ TEST(BinaryTree, NoDefaultType) {
     EXPECT_EQ(tree.getData().val, 42);
     tree.setData(NoDefault(10));
     EXPECT_EQ(tree.getData().val, 10);
-    BinaryTree<NoDefault>* left = new BinaryTree<NoDefault>(NoDefault(20));
-    tree.setLeft(left);
+    tree.setLeft(std::make_unique<BinaryTree<NoDefault>>(NoDefault(20)));
     EXPECT_EQ(tree.getLeft()->getData().val, 20);
 }
 
@@ -99,8 +91,8 @@ TEST(BinaryTree, NoDefaultType) {
 TEST(BinaryTree, Destructor) {
     {
         BinaryTree<int> root(1);
-        root.setLeft(new BinaryTree<int>(2));
-        root.setRight(new BinaryTree<int>(3));
+        root.setLeft(std::make_unique<BinaryTree<int>>(2));
+        root.setRight(std::make_unique<BinaryTree<int>>(3));
     }  // root destroyed here, should delete left and right
     // No direct assertion, but running with valgrind can confirm no leaks
 }

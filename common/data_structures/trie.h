@@ -4,18 +4,17 @@
 #include <string>
 #include <unordered_map>
 
-
 class Trie {
 public:
-    Trie();
-    ~Trie();
+  Trie();
+  ~Trie();
 
-    void insert(const std::string& key);
-    bool search(const std::string& key) const;
+  void insert(const std::string &key);
+  bool search(const std::string &key) const;
 
 private:
-    bool isEndOfWord = false;
-    std::unordered_map<char, Trie*> children = {};
+  bool isEndOfWord = false;
+  std::unordered_map<char, Trie *> children = {};
 };
 
 #endif // TRIE_H

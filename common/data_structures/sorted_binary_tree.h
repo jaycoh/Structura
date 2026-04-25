@@ -2,6 +2,7 @@
 #define SORTED_BINARY_TREE_H
 
 #include <iostream>
+#include <stdexcept>
 #include "binary_tree.h"
 
 template <typename T>
